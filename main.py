@@ -15,9 +15,13 @@ class IndicatorGroup (Enum):
     def __init__(self):
         super().__init__()
 
+        
+        
 class CommodityGroup :
 
 
+    
+    
 class Commodity :
     def __init__(self):
         super().__init__()
@@ -26,7 +30,8 @@ class Commodity :
 
     def Commodity (group : CommodityGroup, id : str, name : str) :
 
-#---#
+
+        
 
 class Indicator (Unit, IndicatorGroup):
     def __init__(self, id: str, frequency: int, frequencyDesc: str, geogLocation: str, name: str):
@@ -37,7 +42,7 @@ class Indicator (Unit, IndicatorGroup):
 
     def Indicator (id : str, frequency : int, frequencyDesc : str, geogLocation : str, unit : Unit, indicatorGroup : IndicatorGroup) :
 
-#---#
+
 
 class Measurement:
 
