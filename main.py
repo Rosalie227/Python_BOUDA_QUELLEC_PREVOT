@@ -54,4 +54,5 @@ class Measurement:
 
     def Measurement(id: int, year: int, value: float, timeperiodeId: int, timeperiodDescr: str, commodity: Commodity, indicator: Indicator):
 
+COUCOU
 
