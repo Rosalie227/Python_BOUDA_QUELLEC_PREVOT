@@ -53,6 +53,3 @@ class Measurement:
         self.attribut4 = timeperiodDescr
 
     def Measurement(id: int, year: int, value: float, timeperiodeId: int, timeperiodDescr: str, commodity: Commodity, indicator: Indicator):
-
-COUCOU
-
