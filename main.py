@@ -23,6 +23,7 @@ class CommodityGroup :
     
     
 class Commodity :
+    
     def __init__(self):
         super().__init__()
     id : str
@@ -34,6 +35,7 @@ class Commodity :
         
 
 class Indicator (Unit, IndicatorGroup):
+    
     def __init__(self, id: str, frequency: int, frequencyDesc: str, geogLocation: str, name: str):
         super().__init__(id)
         self.attribut2 = frequency
