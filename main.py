@@ -1,6 +1,9 @@
 from math import *
+from enum import Enum
+from abc import abstractmethod, abstractclassmethod
+from enum import Enum
 
-
+@abstractclassmethod
 class Unit:
 
     def __init__(self, id: int, name : str):
@@ -60,7 +63,7 @@ class Measurement:
 
 
 #Volume
-class Volume ():
+class Volume :
 
     def __init__(self):
         super().__init__()
@@ -69,7 +72,7 @@ class Volume ():
         print(self.name + id)
 
 #Surface
-class Surface ():
+class Surface :
 
     def __init__(self, name: str):
         self.attribut1 = name
@@ -78,7 +81,7 @@ class Surface ():
         print(self.name + id)
 
 #Price
-class Price ():
+class Price :
 
     def __init__(self):
         super().__init__()
@@ -87,7 +90,7 @@ class Price ():
         print(self.name + id)
 
 #Count
-class Count ():
+class Count :
 
     def __init__(self, what: str):
         self.attribut1 = what
@@ -96,7 +99,7 @@ class Count ():
         print(self.name + id)
 
 #Weight
-class Weight ():
+class Weight :
 
     def __init__(self, multiplier: float):
         self.attribut1 = multiplier
@@ -105,10 +108,18 @@ class Weight ():
         print(self.name + id)
 
 #Ratio
-class Ratio ():
+class Ratio :
 
     def __init__(self):
         super().__init__()
+     
+    
+    
+    
+class Describable :
+
+    @abstractmethod
+    def describe (self) :
 
     def ratio(self,id: int, name: str = 'Ratio'):
         print(self.name + id)
