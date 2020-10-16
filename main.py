@@ -17,8 +17,10 @@ class IndicatorGroup (Enum):
 
         
         
-class CommodityGroup :
-
+class CommodityGroup (Enum) :
+    
+    def __init__(self):
+        super().__init__()
 
     
     
