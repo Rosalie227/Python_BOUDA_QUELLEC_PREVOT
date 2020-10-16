@@ -1,7 +1,6 @@
 from math import *
 from enum import Enum
 from abc import abstractmethod, abstractclassmethod
-from enum import Enum
 
 @abstractclassmethod
 class Unit:
