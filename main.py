@@ -14,13 +14,31 @@ class Unit:
 
 class IndicatorGroup (Enum):
 
-    def __init__(self):
-        super().__init__()
+    EXPORTS_AND_IMPORTS = 1
+    SUPPLY_AND_USE = 2
+    PRICES = 3
+    FEDD_PRICE_RATIONS = 4
+    QUANTITIES_FED = 5
+    TRANSPORTATION = 6
+    ANIMAL_UNIT_INDEXES = 7
 
         
         
-class CommodityGroup :
+class CommodityGroup (Enum) :
 
+    CORN = 1
+    BARLEY = 2
+    OATS = 3
+    SORGHUM = 4
+    BYPRODUCTS_FEEDS = 5
+    COARSE_GRAINS = 6
+    HAY = 7
+    FEED_GRAINS = 8
+    ANIMAL_PROTEIN_FEEDS = 9
+    GRAIN_PROTEIN_FEEDS = 10
+    PROCESSED_FEEDS = 11
+    ENERGY_FEEDS = 12
+    OTHER = 13
 
     
     
