@@ -123,4 +123,39 @@ class Describable :
     def ratio(self,id: int, name: str = 'Ratio'):
         print(self.name + id)
         
-        
+# FoodCropFactory
+class FoodCropFactory :
+    def __init__(self):
+        super().__init__()
+
+    def createVolume(self,id : int) -> Unit :
+
+    def createPrice(self,id : int) -> Unit :
+
+    def createWeight(self,id:int,weight:float) -> Unit :
+
+    def createSurface(self,id:int) -> Unit :
+
+    def createCount(self,id:int,what:str) -> Unit:
+
+    def createRatio(self,id:int) -> Unit:
+
+    def createUnitRatio(self,id:int,unit1:Unit,unit2:Unit) -> Unit:
+
+    def createCommodity(self,group:CommodityGroup,id:int,name:str) -> Commodity:
+
+    def createIndicator(self,id:int,frequency:int,freqDesc:str,geogLocation:str,indicatorGroup:IndicatorGroup,unit:Unit) -> Indicator:
+
+    def createMeasurementType(self,id:int,description:str) -> MeasurementType:
+
+    def createMeasurement(id:int,year:int,value:float,timeperiodId:int,timeperiodDesc:str,commodity:Commodity,indicator:Indicator) -> Measurement:
+
+#FoodCropsDataset
+class FoodCropsDataset:
+
+    def __init__(self):
+        super().__init__()
+
+    def load(self,datasetPath:str):
+
+    def findMeasurements(self,commodityType:CommodityType=nil,indicatorGroup:IndicatorGroup=nil,geographicalLocation:str=nil,unit:Unit=nil) -> List[Measurement]:
