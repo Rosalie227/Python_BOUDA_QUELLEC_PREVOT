@@ -3,7 +3,7 @@ from enum import Enum
 from abc import abstractmethod, abstractclassmethod
 
 @abstractclassmethod
-class Unit:
+class Unit (Describable):
 
     def __init__(self, id: int, name : str):
         self.attribut1 = id
@@ -41,7 +41,7 @@ class CommodityGroup (Enum) :
 
     
     
-class Commodity :
+class Commodity (Describable):
     
     def __init__(self):
         super().__init__()
@@ -50,7 +50,7 @@ class Commodity :
 
         
 
-class Indicator (Unit, IndicatorGroup):
+class Indicator (Unit, IndicatorGroup, Describable):
     
     def __init__(self, id: str, frequency: int, frequencyDesc: str, geogLocation: str, name: str):
         super().__init__(id)
@@ -62,7 +62,7 @@ class Indicator (Unit, IndicatorGroup):
 
 
 
-class Measurement:
+class Measurement (Describable):
 
     def __init__(self, year: int, value: float, timeperiodeId: int, timeperiodDescr: str):
         self.attribut1 = year
@@ -124,16 +124,17 @@ class Ratio :
 
     def __init__(self):
         super().__init__()
-     
+        
+    def ratio(self,id: int, name: str = 'Ratio'):
+        print(self.name + id)
     
      
-class Describable :
+class Describable (abc.ABC) :
 
     @abstractmethod
     def describe (self) :
 
-    def ratio(self,id: int, name: str = 'Ratio'):
-        print(self.name + id)
+
         
 # FoodCropFactory
 class FoodCropFactory :
