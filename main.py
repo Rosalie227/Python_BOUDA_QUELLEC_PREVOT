@@ -9,7 +9,6 @@ class Unit:
         self.attribut1 = id
         self.attribut2 = name
 
-    def Unit (id : int, name : str) :
 
 
 class IndicatorGroup (Enum):
@@ -49,9 +48,6 @@ class Commodity :
     id : str
     name : str
 
-    def Commodity (group : CommodityGroup, id : str, name : str) :
-
-
         
 
 class Indicator (Unit, IndicatorGroup):
@@ -78,15 +74,14 @@ class Measurement:
  
 
 
-
 #Volume
 class Volume :
 
-    def __init__(self):
+    def __init__(self, id: int, name: str = 'Volume'):
         super().__init__()
-
-    def volume(self,id: int, name: str = 'Volume'):
-        print(self.name + id)
+        self.attribut1 = id
+        self.attribut2 = name
+        
 
 #Surface
 class Surface :
@@ -131,8 +126,7 @@ class Ratio :
         super().__init__()
      
     
-    
-    
+     
 class Describable :
 
     @abstractmethod
