@@ -43,10 +43,10 @@ class CommodityGroup (Enum) :
     
 class Commodity (Describable):
     
-    def __init__(self):
+    def __init__(self, id : int, name: str):
         super().__init__()
-    id : str
-    name : str
+        self.attribut1=id
+        self.attribut2= name
 
         
 
