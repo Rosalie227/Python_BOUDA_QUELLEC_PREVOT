@@ -81,6 +81,7 @@ class Volume :
         super().__init__()
         self.attribut1 = id
         self.attribut2 = name
+
         
 
 #Surface
@@ -92,6 +93,8 @@ class Surface :
     def surface(self,id: int, name: str = "Surface"):
         print(self.name + id)
 
+        
+        
 #Price
 class Price :
 
@@ -101,6 +104,8 @@ class Price :
     def price(self,id: int, name: str = 'Price'):
         print(self.name + id)
 
+        
+        
 #Count
 class Count :
 
@@ -110,6 +115,8 @@ class Count :
     def count(self,id: int, name: str = "Count", what: str):
         print(self.name + id)
 
+        
+        
 #Weight
 class Weight :
 
@@ -119,6 +126,8 @@ class Weight :
     def weight(self,id: int, name: str = "Weight", multiplier: float):
         print(self.name + id)
 
+        
+        
 #Ratio
 class Ratio :
 
@@ -127,6 +136,7 @@ class Ratio :
         
     def ratio(self,id: int, name: str = 'Ratio'):
         print(self.name + id)
+    
     
      
 class Describable (abc.ABC) :
@@ -163,6 +173,8 @@ class FoodCropFactory :
 
     def createMeasurement(id:int,year:int,value:float,timeperiodId:int,timeperiodDesc:str,commodity:Commodity,indicator:Indicator) -> Measurement:
 
+        
+        
 #FoodCropsDataset
 class FoodCropsDataset:
 
