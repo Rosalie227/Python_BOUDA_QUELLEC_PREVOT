@@ -58,7 +58,6 @@ class Indicator (Unit, IndicatorGroup, Describable):
         self.attribut3 = frequencyDesc
         self.attribut4 = geogLocation
 
-    def Indicator (id : str, frequency : int, frequencyDesc : str, geogLocation : str, unit : Unit, indicatorGroup : IndicatorGroup) :
 
 
 
@@ -70,75 +69,57 @@ class Measurement (Describable):
         self.attribut3 = timeperiodeId
         self.attribut4 = timeperiodDescr
 
-    def Measurement(id: int, year: int, value: float, timeperiodeId: int, timeperiodDescr: str, commodity: Commodity, indicator: Indicator):
  
 
 
-#Volume
-class Volume :
+    
 
-    def __init__(self, id: int, name: str = 'Volume'):
-        super().__init__()
-        self.attribut1 = id
-        self.attribut2 = name
 
-        
 
-#Surface
-class Surface :
-
-    def __init__(self, name: str):
-        self.attribut1 = name
-
-    def surface(self,id: int, name: str = "Surface"):
-        print(self.name + id)
-
-        
-        
-#Price
-class Price :
+class Volume(Unit):
 
     def __init__(self):
-        super().__init__()
+        super().__init__(id, name='Volume')
 
-    def price(self,id: int, name: str = 'Price'):
-        print(self.name + id)
 
-        
-        
-#Count
-class Count :
+class Surface(Unit):
+
+    def __init__(self):
+        super().__init__(id, name='Surface')
+
+
+class Price(Unit):
+
+    def __init__(self):
+        super().__init__(id, name='Price')
+
+
+class Count(Unit):
 
     def __init__(self, what: str):
-        self.attribut1 = what
+        super().__init__(id, name='Count')
+        self._what = what                           #attribut _what prend valeur what
 
-    def count(self,id: int, name: str = "Count", what: str):
-        print(self.name + id)
 
-        
-        
-#Weight
-class Weight :
+class Weight(Unit):
 
     def __init__(self, multiplier: float):
-        self.attribut1 = multiplier
+        super().__init__(id, name='Weight')
+        self._multiplier = multiplier               #attribut _multiplier prend valeur multiplier
 
-    def weight(self,id: int, name: str = "Weight", multiplier: float):
-        print(self.name + id)
 
-        
-        
-#Ratio
-class Ratio :
+class Ratio:
 
     def __init__(self):
-        super().__init__()
-        
-    def ratio(self,id: int, name: str = 'Ratio'):
-        print(self.name + id)
-    
-    
+        super().__init__(id, name='Ratio')
+
      
+    
+    
+    
+    
+    
+    
 class Describable (abc.ABC) :
 
     @abstractmethod
@@ -163,9 +144,13 @@ class FoodCropFactory :
 
     def createRatio(self,id:int) -> Unit:
 
+    def createUnitRatio(self,id:int,unit1:Unit,unit2:Unit) -> Unit:
+
     def createCommodity(self,group:CommodityGroup,id:int,name:str) -> Commodity:
 
     def createIndicator(self,id:int,frequency:int,freqDesc:str,geogLocation:str,indicatorGroup:IndicatorGroup,unit:Unit) -> Indicator:
+
+    def createMeasurementType(self,id:int,description:str) -> MeasurementType:
 
     def createMeasurement(id:int,year:int,value:float,timeperiodId:int,timeperiodDesc:str,commodity:Commodity,indicator:Indicator) -> Measurement:
 
