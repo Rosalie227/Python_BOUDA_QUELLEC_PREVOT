@@ -152,8 +152,11 @@ class FoodCropFactory :
     def createUnitRatio(self,id:int,unit1:Unit,unit2:Unit) -> Unit:
 
     def createCommodity(self,group:CommodityGroup,id:int,name:str) -> Commodity:
+	biblioCommodity.append(id,name)
 
     def createIndicator(self,id:int,frequency:int,freqDesc:str,geogLocation:str,indicatorGroup:IndicatorGroup,unit:Unit) -> Indicator:
+	biblioIndicator.append(id,frequency,freqDesc,geogLocation)
+	biblioUnit.append(unit)
 
     def createMeasurementType(self,id:int,description:str) -> MeasurementType:
 
@@ -164,10 +167,10 @@ class FoodCropFactory :
 #FoodCropsDataset
 class FoodCropsDataset:
 	
-	biblioIndicator = 
-	biblioUnit = 
-	biblioCommodity = 
-	biblioMeasurement = 
+	biblioIndicator = []
+	biblioUnit = []
+	biblioCommodity = []
+	biblioMeasurement = []
 	
     def __init__(self):
         super().__init__()
