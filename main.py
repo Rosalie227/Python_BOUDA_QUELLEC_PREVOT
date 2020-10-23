@@ -43,7 +43,7 @@ class CommodityGroup (Enum) :
 
     
     
-class Commodity (Describable, CommodityGroup):
+class Commodity (Describable):
     
     def __init__(self, id : int, name: str, group : CommodityGroup):
         super().__init__()
@@ -55,7 +55,7 @@ class Commodity (Describable, CommodityGroup):
 	
         
 
-class Indicator (Unit, IndicatorGroup, Describable):
+class Indicator (Describable):
     
     def __init__(self, id: str, frequency: int, frequencyDesc: str, geogLocation: str, name: str):
         super().__init__(id)
@@ -84,19 +84,19 @@ class Measurement (Describable):
 
 
 
-class Volume(Unit):
+class Volume (Unit):
 
     def __init__(self):
         super().__init__(id, name='Volume')
 
 
-class Surface(Unit):
+class Surface (Unit):
 
     def __init__(self):
         super().__init__(id, name='Surface')
 
 
-class Price(Unit):
+class Price (Unit):
 
     def __init__(self):
         super().__init__(id, name='Price')
@@ -109,14 +109,14 @@ class Count(Unit):
         self._what = what                           #attribut _what prend valeur what
 
 
-class Weight(Unit):
+class Weight (Unit):
 
     def __init__(self, multiplier: float):
         super().__init__(id, name='Weight')
         self._multiplier = multiplier               #attribut _multiplier prend valeur multiplier
 
 
-class Ratio:
+class Ratio (Unit):
 
     def __init__(self):
         super().__init__(id, name='Ratio')
