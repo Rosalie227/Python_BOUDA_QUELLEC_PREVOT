@@ -1,6 +1,6 @@
 from math import *
 from enum import Enum
-from abc import abstractmethod, abstractclassmethod
+from abc import ABC, abstractmethod, abstractclassmethod
 
 @abstractclassmethod
 class Unit (Describable):
@@ -9,6 +9,8 @@ class Unit (Describable):
         self.attribut1 = id
         self.attribut2 = name
 
+    def describe (self) :
+	
 
 
 class IndicatorGroup (Enum):
@@ -49,6 +51,8 @@ class Commodity (Describable, CommodityGroup):
         self.attribut2 = name
         self.attribut3 = group
 
+    def describe (self) :
+	
         
 
 class Indicator (Unit, IndicatorGroup, Describable):
@@ -59,6 +63,7 @@ class Indicator (Unit, IndicatorGroup, Describable):
         self.attribut3 = frequencyDesc
         self.attribut4 = geogLocation
 
+    def describe (self) :
 
 
 
@@ -69,6 +74,8 @@ class Measurement (Describable):
         self.attribut2 = value
         self.attribut3 = timeperiodeId
         self.attribut4 = timeperiodDescr
+
+    def describe (self) :
 
  
 
@@ -121,11 +128,11 @@ class Ratio:
     
     
     
-class Describable (abc.ABC) :
+class Describable (ABC) :
 
     @abstractmethod
     def describe (self) :
-
+        pass
 
         
 # FoodCropFactory
