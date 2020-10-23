@@ -125,9 +125,6 @@ class Ratio (Unit):
     
     
     
-    
-    
-    
 class Describable (ABC) :
 
     @abstractmethod
@@ -166,7 +163,12 @@ class FoodCropFactory :
         
 #FoodCropsDataset
 class FoodCropsDataset:
-
+	
+	biblioIndicator = 
+	biblioUnit = 
+	biblioCommodity = 
+	biblioMeasurement = 
+	
     def __init__(self):
         super().__init__()
 
