@@ -10,7 +10,7 @@ class Unit (Describable):
         self.attribut2 = name
 
     def describe (self) :
-	
+	pass
 
 
 class IndicatorGroup (Enum):
@@ -52,7 +52,7 @@ class Commodity (Describable):
         self.attribut3 = group
 
     def describe (self) :
-	
+	pass	
         
 
 class Indicator (Describable):
@@ -64,7 +64,7 @@ class Indicator (Describable):
         self.attribut4 = geogLocation
 
     def describe (self) :
-
+	pass
 
 
 class Measurement (Describable):
@@ -76,7 +76,7 @@ class Measurement (Describable):
         self.attribut4 = timeperiodDescr
 
     def describe (self) :
-
+	pass
  
 
 
