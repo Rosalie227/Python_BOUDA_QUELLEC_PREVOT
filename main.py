@@ -1,20 +1,22 @@
 from math import *
 from enum import Enum
 from abc import ABC, abstractmethod, abstractclassmethod
+import pandas
+
+
 
 @abstractclassmethod
-class Unit (Describable):
+class Unit(Describable):
 
-    def __init__(self, id: int, name : str):
+    def __init__(self, id: int, name: str):
         self.attribut1 = id
         self.attribut2 = name
 
-    def describe (self) :
-	pass
+    def describe(self):
+        pass
 
 
-class IndicatorGroup (Enum):
-
+class IndicatorGroup(Enum):
     EXPORTS_AND_IMPORTS = 1
     SUPPLY_AND_USE = 2
     PRICES = 3
@@ -23,10 +25,8 @@ class IndicatorGroup (Enum):
     TRANSPORTATION = 6
     ANIMAL_UNIT_INDEXES = 7
 
-        
-        
-class CommodityGroup (Enum) :
 
+class CommodityGroup(Enum):
     CORN = 1
     BARLEY = 2
     OATS = 3
@@ -41,33 +41,32 @@ class CommodityGroup (Enum) :
     ENERGY_FEEDS = 12
     OTHER = 13
 
-    
-    
-class Commodity (Describable):
-    
-    def __init__(self, id : int, name: str, group : CommodityGroup):
+
+class Commodity(Describable):
+
+    def __init__(self, id: int, name: str, group: CommodityGroup):
         super().__init__()
         self.attribut1 = id
         self.attribut2 = name
         self.attribut3 = group
 
-    def describe (self) :
-	pass	
-        
+    def describe(self):
+        pass
 
-class Indicator (Describable):
-    
+
+class Indicator(Describable):
+
     def __init__(self, id: str, frequency: int, frequencyDesc: str, geogLocation: str, name: str):
         super().__init__(id)
         self.attribut2 = frequency
         self.attribut3 = frequencyDesc
         self.attribut4 = geogLocation
 
-    def describe (self) :
-	pass
+    def describe(self):
+        pass
 
 
-class Measurement (Describable):
+class Measurement(Describable):
 
     def __init__(self, year: int, value: float, timeperiodeId: int, timeperiodDescr: str):
         self.attribut1 = year
@@ -75,28 +74,23 @@ class Measurement (Describable):
         self.attribut3 = timeperiodeId
         self.attribut4 = timeperiodDescr
 
-    def describe (self) :
-	pass
- 
+    def describe(self):
+        pass
 
 
-    
-
-
-
-class Volume (Unit):
+class Volume(Unit):
 
     def __init__(self):
         super().__init__(id, name='Volume')
 
 
-class Surface (Unit):
+class Surface(Unit):
 
     def __init__(self):
         super().__init__(id, name='Surface')
 
 
-class Price (Unit):
+class Price(Unit):
 
     def __init__(self):
         super().__init__(id, name='Price')
@@ -106,75 +100,123 @@ class Count(Unit):
 
     def __init__(self, what: str):
         super().__init__(id, name='Count')
-        self._what = what                           #attribut _what prend valeur what
+        self._what = what  # attribut _what prend valeur what
 
 
-class Weight (Unit):
+class Weight(Unit):
 
     def __init__(self, multiplier: float):
         super().__init__(id, name='Weight')
-        self._multiplier = multiplier               #attribut _multiplier prend valeur multiplier
+        self._multiplier = multiplier  # attribut _multiplier prend valeur multiplier
 
 
-class Ratio (Unit):
+class Ratio(Unit):
 
     def __init__(self):
         super().__init__(id, name='Ratio')
 
-     
-    
-    
-    
-class Describable (ABC) :
+
+class Describable(ABC):
 
     @abstractmethod
-    def describe (self) :
+    def describe(self):
         pass
 
-        
+
 # FoodCropFactory
-class FoodCropFactory :
+class FoodCropFactory:
     def __init__(self):
         super().__init__()
 
-    def createVolume(self,id : int) -> Unit :
+    def createVolume(self, id: int) -> Unit:
 
-    def createPrice(self,id : int) -> Unit :
+    def createPrice(self, id: int) -> Unit:
 
-    def createWeight(self,id:int,weight:float) -> Unit :
+    def createWeight(self, id: int, weight: float) -> Unit:
 
-    def createSurface(self,id:int) -> Unit :
+    def createSurface(self, id: int) -> Unit:
 
-    def createCount(self,id:int,what:str) -> Unit:
+    def createCount(self, id: int, what: str) -> Unit:
 
-    def createRatio(self,id:int) -> Unit:
+    def createRatio(self, id: int) -> Unit:
 
-    def createUnitRatio(self,id:int,unit1:Unit,unit2:Unit) -> Unit:
+    def createUnitRatio(self, id: int, unit1: Unit, unit2: Unit) -> Unit:
 
-    def createCommodity(self,group:CommodityGroup,id:int,name:str) -> Commodity:
-	biblioCommodity.append(id,name)
+    def createCommodity(self, group: CommodityGroup, id: int, name: str) -> Commodity:
+        biblioCommodity.append(id, name)
 
-    def createIndicator(self,id:int,frequency:int,freqDesc:str,geogLocation:str,indicatorGroup:IndicatorGroup,unit:Unit) -> Indicator:
-	biblioIndicator.append(id,frequency,freqDesc,geogLocation)
-	biblioUnit.append(unit)
+    def createIndicator(self, id: int, frequency: int, freqDesc: str, geogLocation: str, indicatorGroup: IndicatorGroup,
+                        unit: Unit) -> Indicator:
+        biblioIndicator.append(id, frequency, freqDesc, geogLocation)
+        biblioUnit.append(unit)
 
-    def createMeasurementType(self,id:int,description:str) -> MeasurementType:
+    def createMeasurementType(self, id: int, description: str) -> MeasurementType:
 
-    def createMeasurement(id:int,year:int,value:float,timeperiodId:int,timeperiodDesc:str,commodity:Commodity,indicator:Indicator) -> Measurement:
+    def createMeasurement(id: int, year: int, value: float, timeperiodId: int, timeperiodDesc: str,
+                          commodity: Commodity, indicator: Indicator) -> Measurement:
 
-        
-        
-#FoodCropsDataset
+
+# FoodCropsDataset
 class FoodCropsDataset:
-	
-	biblioIndicator = []
-	biblioUnit = []
-	biblioCommodity = []
-	biblioMeasurement = []
-	
+    biblioIndicator = {}
+    biblioUnit = {}
+    biblioCommodity = {}
+    biblioMeasurement = {}
+
+
     def __init__(self):
         super().__init__()
 
-    def load(self,datasetPath:str):
 
-    def findMeasurements(self,commodityType:CommodityType=nil,indicatorGroup:IndicatorGroup=nil,geographicalLocation:str=nil,unit:Unit=nil) -> List[Measurement]:
+    def load(self, datasetPath: str):
+        datasetPath = 'C:\\Users\\charl\\Documents\\2A EMA\\poo\\Projet Python\\FeedGrains.csv'
+        dataframe = pandas.read_csv(datasetPath)
+        #instanciations du modèle
+
+    def findMeasurements(self, commodityType: CommodityType = nil, indicatorGroup: IndicatorGroup = nil,
+                         geographicalLocation: str = nil, unit: Unit = nil) -> List[Measurement]:
+
+
+
+
+for index, row in dataframe.iterrows():
+    column_value = row['SC_GroupCommod_Desc']
+    column_value_2  = row[4]
+
+
+##DICTIONNAIRE UNIT
+#affiche le nom de chaque colonne
+for idx, column in enumerate(dataframe.columns):
+    print(idx,column)
+
+#extraction d'une colonne
+dataframe['SC_Unit_Desc']
+
+#extraction de deux colonnes
+dataframe[['SC_Unit_ID','SC_Unit_Desc']]
+
+#combien de valeurs différentes
+dataframe[['SC_Unit_ID','SC_Unit_Desc']].nunique()
+
+#sans les doublons, 1 attribut
+dataframe['SC_Unit_ID'].unique()
+dataframe['SC_Unit_Desc'].unique()
+
+#une ligne du dictionnaire
+[dataframe['SC_Unit_ID'].unique()[3],dataframe['SC_Unit_Desc'].unique()[3]]
+
+#création du dictionnaire Unit
+dico_Unit = dict()
+for i in range(dataframe['SC_Unit_ID'].nunique()) :
+    dico_Unit[dataframe['SC_Unit_Desc'].unique()[i]] = dataframe['SC_Unit_ID'].unique()[i]
+
+
+##DICTIONNAIRE COMMODITY
+dico_Commodity = dict()
+for i in range(dataframe['SC_Commodity_ID'].nunique()) :
+    dico_Commodity[dataframe['SC_Commodity_Desc'].unique()[i]] = dataframe['SC_Commodity_ID'].unique()[i]
+
+##DICTIONNAIRE INDICATOR
+dico_Indicator = dict()
+for i in range(dataframe['SC_Attribute_ID'].nunique()) :
+    dico_Indicator[dataframe['SC_Attribute_Desc'].unique()[i]] = dataframe['SC_Attribute_ID'].unique()[i]
