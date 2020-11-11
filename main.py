@@ -17,8 +17,6 @@ class Describable(ABC):  # ABC = Abstract Base Class
 
 @abstractclassmethod
 class Unit(ABC, Describable):  # j'ai rajouté ABC pour dire que c'est une classe abstraite
-    id: int
-    name: str
 
     def __init__(self, id: int, name: str):
         super().__init__()
@@ -306,7 +304,7 @@ class FoodCropsDataset:
             # elif idUnit in [15]:
             # unit = FoodCropFactory.createDate(idUnit)
             else:
-                unit= null # nécessaire sinon erreur pour créer indicator
+                unit = null # nécessaire sinon erreur pour créer indicator
 
             indicator = FoodCropFactory.createIndicator(FoodCropFactory.self, idIndicator, idFrequency, descFrequency, descGeography,
                                                         idIndicatorGroup, unit)
@@ -343,82 +341,59 @@ class FoodCropsDataset:
 
     def findMeasurements(self, commodityType: CommodityType = nil, indicatorGroup: IndicatorGroup = nil,
                          geographicalLocation: str = nil, unit: Unit = nil) -> List[Measurement]:
-        listCommodity = [] #liste des id des mesures dont le commodity group correspond à celui recherché
-        listIndicator = []
-        listGeog = []
-        listUnit = []
         liste_mesures = list()
-        liste1 = dico.Commoditygroup(CG) #comme listCommodity mais avec  les mesures
-        for element in liste1:
-            list1.append(element.id)
-            liste2 = dico.IndicatorGroup(IG)
-        for element in liste2:
-            list2.append(element.id)
-        for element in list1:
-            if element is in list2:
-                list3.append(element)
-                ...
-        for element in list3:
-            liste_mesures.append(dataframe.ligne(element))
+        liste_toutes_les_mesures = list()
+        for cle , valeur in self.dicoCommodityGroup.items():   #On aurait pu prendre n'importe lequel des dictionnaires
+            liste_toutes_les_mesures += valeur                 #On ajoute chaque "morceau" de la liste des mesures qui sont séparées dans le dico
+        if commodityType == nil:
+            liste_mesures_Commodity = liste_toutes_les_mesures #Pour avoir toutes les mesures et pouvoir croiser
+        else :
+            liste_mesures_Commodity = self.dicoCommodityGroup[commodityType] #On affecte la liste des mesures qui ont pour CommodityGroup celui recherché
+        if indicatorGroup == nil:
+            liste_mesures_Indicator = liste_toutes_les_mesures
+        else :
+            liste_mesures_Indicator = self.dicoIndicatorGroup[indicatorGroup]
+        if geographicalLocation == nil:
+            liste_mesures_Geogloc = liste_toutes_les_mesures
+        else :
+            liste_mesures_Geogloc = self.dicoLocGeo[geographicalLocation]
+        if unit == nil:
+            liste_mesures_Unit = liste_toutes_les_mesures
+        else :
+            liste_mesures_Unit = self.dicoUnit[unit]
+        for element in liste_mesures_Commodity:              #On aurait pu commencer par n'importe laquelle des 4 listes
+            if element in liste_mesures_Indicator and element in liste_mesures_Geogloc and element in liste_mesures_Unit : #Si la mesure correspond à toutes les critères
+                liste_mesures.append(element)                                                                              #on l'ajoute à la liste à renvoyer
         return liste_mesures
 
-        pass
-    #renvoie une Liste de Measurement
-    #si argument = corn, alors on cherche dans le dictionnaire la liste qui correspond
-    #dans la liste trouvée, quel groupe en commun
-
-    #ou alors faire une liste par arguments et après les croiser simplement
-
-
-
-
-
-
-
-
-
-
-
-
 """
-
 ##DICTIONNAIRE UNIT
 #affiche le nom de chaque colonne
 for idx, column in enumerate(dataframe.columns):
     print(idx,column)
-
 #extraction d'une colonne
 dataframe['SC_Unit_Desc']
-
 #extraction de deux colonnes
 dataframe[['SC_Unit_ID','SC_Unit_Desc']]
-
 #combien de valeurs différentes
 dataframe[['SC_Unit_ID','SC_Unit_Desc']].nunique()
-
 #sans les doublons, 1 attribut
 dataframe['SC_Unit_ID'].unique()
 dataframe['SC_Unit_Desc'].unique()
-
 #une ligne du dictionnaire
 [dataframe['SC_Unit_ID'].unique()[3],dataframe['SC_Unit_Desc'].unique()[3]]
-
 #création du dictionnaire Unit
 dico_Unit = dict()
 for i in range(dataframe['SC_Unit_ID'].nunique()) :
     dico_Unit[dataframe['SC_Unit_Desc'].unique()[i]] = dataframe['SC_Unit_ID'].unique()[i]
-
-
 ##DICTIONNAIRE COMMODITY
 dico_Commodity = dict()
 for i in range(dataframe['SC_Commodity_ID'].nunique()) :
     dico_Commodity[dataframe['SC_Commodity_Desc'].unique()[i]] = dataframe['SC_Commodity_ID'].unique()[i]
-
 ##DICTIONNAIRE INDICATOR
 dico_Indicator = dict()
 for i in range(dataframe['SC_Attribute_ID'].nunique()) :
     dico_Indicator[dataframe['SC_Attribute_Desc'].unique()[i]] = dataframe['SC_Attribute_ID'].unique()[i]
     
 ##
-
 """
