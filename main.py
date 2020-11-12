@@ -15,7 +15,7 @@ class Describable(ABC):  # ABC = Abstract Base Class
         pass  # on note pass car il s'agit d'une méthode abstraite
 
 
-@abstractclassmethod
+#@abstractclassmethod
 class Unit(Describable):  # j'ai rajouté ABC pour dire que c'est une classe abstraite
     id: int
     name: str
@@ -25,6 +25,7 @@ class Unit(Describable):  # j'ai rajouté ABC pour dire que c'est une classe abs
         self.id = id
         self.name = name
 
+    @abstractmethod
     def describe(self):
         pass
 
