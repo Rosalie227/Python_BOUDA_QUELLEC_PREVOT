@@ -16,7 +16,9 @@ class Describable(ABC):  # ABC = Abstract Base Class
 
 
 @abstractclassmethod
-class Unit(ABC, Describable):  # j'ai rajouté ABC pour dire que c'est une classe abstraite
+class Unit(Describable):  # j'ai rajouté ABC pour dire que c'est une classe abstraite
+    id: int
+    name: str
 
     def __init__(self, id: int, name: str):
         super().__init__()
@@ -24,26 +26,31 @@ class Unit(ABC, Describable):  # j'ai rajouté ABC pour dire que c'est une class
         self.name = name
 
     def describe(self):
-        pass  # compléter cette méthode describe / est ce que les sous-classes de unit hérite de describe?
-    #print("i=",i)
+        pass
 
 
 class Volume(Unit):
     def __init__(self, id: int):
         super().__init__(id, name='Volume')
 
-    def describe(self) -> str:  # ils veulent absolument que ce soit une property
-        return "hi"
+    def describe(self) -> str:
+        return "Cette unité est un " + self.name + " avec pour id = "+str(self.id)
 
 
 class Surface(Unit):
     def __init__(self, id: int):
         super().__init__(id, name='Surface')
 
+    def describe(self) -> str:
+        return "Cette unité est une " + self.name + " avec pour id = "+str(self.id)
+
 
 class Price(Unit):
     def __init__(self, id: int):
         super().__init__(id, name='Price')
+
+    def describe(self) -> str:
+        return "Cette unité est un " + self.name + " avec pour id = "+str(self.id)
 
 
 class Count(Unit):
@@ -53,6 +60,9 @@ class Count(Unit):
         super().__init__(id, name='Count')
         self.__what = what  # attribut _what prend valeur what
 
+    def describe(self) -> str:
+        return "Cette unité est un " + self.name + " qui correspond à des " + self.__what + " avec pour id = " + str(self.id)
+
 
 class Weight(Unit):
     __multiplier: float  # attribut privé
@@ -61,22 +71,31 @@ class Weight(Unit):
         super().__init__(id, name='Weight')
         self.__multiplier = multiplier  # attribut _multiplier prend valeur multiplier
 
+    def describe(self) -> str:
+        return "Cette unité est un " + self.name + " multiplié par " + str(self.__multiplier) + " avec pour id = " + str(self.id)
+
 
 class Ratio(Unit):
     def __init__(self, id: int):
         super().__init__(id, name='Ratio')
+
+    def describe(self) -> str:
+        return "Cette unité est un " + self.name + " avec pour id = "+str(self.id)
 
 
 class Date(Unit):
     def __init__(self, id: int):
         super().__init__(id, name='Date')
 
+    def describe(self) -> str:
+        return "Cette unité est une " + self.name + " avec pour id = "+str(self.id)
+
 
 class Indicator(Describable):
     idIndicator: int    # attribut public
     __frequency: int
     __frequencyDesc: str
-    __geogLocation:str
+    __geogLocation: str
     __indicatorGroup: IndicatorGroup
     __unit: Unit
 
@@ -90,15 +109,18 @@ class Indicator(Describable):
         self.__indicatorGroup = indicatorGroup
         self.__unit = unit
 
-    def describe(self):
-        pass    # compléter cette méthode
+    def describe(self) -> str:
+        chaine = "Cet indicateur est le " + str(self.idIndicator) + "du groupe : " + self.__indicatorGroup.name + \
+                 " de fréquence correspondante " + str(self.__frequency) + " : " + self.__frequencyDesc + \
+                 "et de localisation géographique : " + self.__geogLocation + ". Son unité est " + unit.describe()
+        return chaine
 
 
 class IndicatorGroup(Enum):
     EXPORTS_AND_IMPORTS = 1 # garder ces numéros ou les changer en fonction de la database
     SUPPLY_AND_USE = 2
     PRICES = 3
-    FEDD_PRICE_RATIONS = 4
+    FEED_PRICE_RATIOS = 4
     QUANTITIES_FED = 5
     TRANSPORTATION = 6
     ANIMAL_UNIT_INDEXES = 7
@@ -115,11 +137,12 @@ class Commodity(Describable):
         self.__name = name
         self.__group = group
 
-    def describe(self):
-        pass    # à compléter
+    def describe(self) -> str:
+        chaine = "Cette culture vivrière est " + str(self.id) + " : " + self.__name + " du groupe : " + self.__group.name
+        return chaine
 
 
-class CommodityGroup(Enum): # idem, garder les mêmes chiffres ou non
+class CommodityGroup(Enum):  # idem, garder les mêmes chiffres ou non
     CORN = 1
     BARLEY = 2
     OATS = 3
@@ -155,8 +178,11 @@ class Measurement(Describable):
         self.__commodity = commodity
         self.__indicator = indicator
 
-    def describe(self):
-        pass    # à compléter
+    def describe(self) -> str:
+        chaine = "Cette mesure de valeur " + str(self.__value) + " est la mesure n°" + str(self.__id) + " datant de l'année " + str(self.__year) + \
+                 " au mois de " + str(self.__timePeriodId) + " " + self.__timePeriodDescr + \
+                 " correspondant à la culture vivrière : " + self.__commodity.describe() + " et à l'indicateur : " + self.__indicator.describe()
+        return chaine
 
 
 # FoodCropFactory
@@ -164,7 +190,7 @@ class FoodCropFactory:
 
     def __init__(self):
         super().__init__()
-        self.units_registry = {}  # à modifier peut-être peut-être pas des {} / à initialiser comment?
+        self.units_registry = {}
         self.commodity_registry = {}
         self.indicator_registry = {}
 
@@ -225,7 +251,7 @@ class FoodCropFactory:
             self.units_registry[id] = instance
             return instance
 
-    def createCommodity(self, group: CommodityGroup, id: int, name: str) -> Commodity:
+    def createCommodity(self, group: int, id: int, name: str) -> Commodity:
         if id in self.commodity_registry:
             return self.commodity_registry[id]
         else:
@@ -238,7 +264,7 @@ class FoodCropFactory:
         if id in self.indicator_registry:
             return self.indicator_registry[id]
         else:
-            instance = Indicator(id, frequency, freqDesc, geogLocation, indicatorGroup, unit)   #erreur de type
+            instance = Indicator(id, frequency, freqDesc, geogLocation, indicatorGroup, unit)   # erreur de type
             self.indicator_registry[id] = instance
             return instance
 
@@ -253,15 +279,15 @@ class FoodCropFactory:
 class FoodCropsDataset:
 
     # constructeur
-    def __init__(self):  # revérifier la relation
+    def __init__(self):
         super().__init__()
-        self.dicoCommodityGroup = {}  # les 4 dicos en attributs / notations???
+        self.dicoCommodityGroup = {}
         self.dicoIndicatorGroup = {}
         self.dicoLocGeo = {}
         self.dicoUnit = {}
 
     def load(self, datasetPath: str):
-        datasetPath = 'C:\\Users\\charl\\Documents\\2A EMA\\poo\\Projet Python\\FeedGrains.csv'
+        #datasetPath = 'C:\\Users\\charl\\Documents\\2A EMA\\poo\\Projet Python\\FeedGrains.csv'
         dataframe = pandas.read_csv(datasetPath)  # charge le fichier
 
         # instanciations du modèle
@@ -293,22 +319,28 @@ class FoodCropsDataset:
                 unit = FoodCropFactory.createVolume(FoodCropFactory.self, idUnit)
             elif idUnit in [2, 10, 44]:
                 unit = FoodCropFactory.createSurface(FoodCropFactory.self, idUnit)
-            elif idUnit in [7, 8, 9, 41]:
-                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1000) #le multiplier??? --> plusieurs cas
+            elif idUnit in [41]:
+                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1) #différents cas en f° de multiplier
+            elif idUnit in [7, 9]:
+                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1000)
+            elif idUnit in [8]:
+                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1000000)
             elif idUnit in [4, 5, 12, 14, 31]:
                 unit = FoodCropFactory.createPrice(FoodCropFactory.self, idUnit)
-            elif idUnit in [16, 46]:
-                unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit, "exemple") #le what??? --> plusieurs cas
+            elif idUnit in [16]:
+                unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit, "wagons") #différents cas en f° de what
+            elif idUnit in [46]:
+                unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit, "millions d'unités animales")
             elif idUnit in [6, 11, 13, 45]:
                 unit = FoodCropFactory.createRatio(FoodCropFactory.self, idUnit)
-            # elif idUnit in [15]:
-            # unit = FoodCropFactory.createDate(idUnit)
+            elif idUnit in [15]:
+                unit = FoodCropFactory.createDate(FoodCropFactory.self, idUnit)
             else:
-                unit = null # nécessaire sinon erreur pour créer indicator
+                unit= None # nécessaire sinon erreur pour créer indicator
 
             indicator = FoodCropFactory.createIndicator(FoodCropFactory.self, idIndicator, idFrequency, descFrequency, descGeography,
                                                         idIndicatorGroup, unit)
-            commodity = FoodCropFactory.createCommodity(FoodCropFactory.self, CommodityGroup, idCommodity, descCommodity) #CommodityGroup est de type int / à changer en int
+            commodity = FoodCropFactory.createCommodity(FoodCropFactory.self, idCommodityGroup, idCommodity, descCommodity) #CommodityGroup est de type int / à changer en int
             measurement = FoodCropFactory.createMeasurement(FoodCropFactory.self, index, idYear, amount, idTimePeriod, descTimePeriod,
                                                             commodity, indicator)
 
@@ -339,25 +371,25 @@ class FoodCropsDataset:
             self.dicoLocGeo[idGeography].append(measurement)
 
 
-    def findMeasurements(self, commodityType: CommodityType = nil, indicatorGroup: IndicatorGroup = nil,
-                         geographicalLocation: str = nil, unit: Unit = nil) -> List[Measurement]:
+    def findMeasurements(self, commodityType: CommodityType = None, indicatorGroup: IndicatorGroup = None,
+                         geographicalLocation: str = None, unit: Unit = None) -> List[Measurement]:
         liste_mesures = list()
         liste_toutes_les_mesures = list()
         for cle , valeur in self.dicoCommodityGroup.items():   #On aurait pu prendre n'importe lequel des dictionnaires
             liste_toutes_les_mesures += valeur                 #On ajoute chaque "morceau" de la liste des mesures qui sont séparées dans le dico
-        if commodityType == nil:
+        if commodityType is None:
             liste_mesures_Commodity = liste_toutes_les_mesures #Pour avoir toutes les mesures et pouvoir croiser
         else :
             liste_mesures_Commodity = self.dicoCommodityGroup[commodityType] #On affecte la liste des mesures qui ont pour CommodityGroup celui recherché
-        if indicatorGroup == nil:
+        if indicatorGroup is None:
             liste_mesures_Indicator = liste_toutes_les_mesures
         else :
             liste_mesures_Indicator = self.dicoIndicatorGroup[indicatorGroup]
-        if geographicalLocation == nil:
+        if geographicalLocation is None:
             liste_mesures_Geogloc = liste_toutes_les_mesures
         else :
             liste_mesures_Geogloc = self.dicoLocGeo[geographicalLocation]
-        if unit == nil:
+        if unit is None:
             liste_mesures_Unit = liste_toutes_les_mesures
         else :
             liste_mesures_Unit = self.dicoUnit[unit]
@@ -366,34 +398,20 @@ class FoodCropsDataset:
                 liste_mesures.append(element)                                                                              #on l'ajoute à la liste à renvoyer
         return liste_mesures
 
-"""
-##DICTIONNAIRE UNIT
-#affiche le nom de chaque colonne
-for idx, column in enumerate(dataframe.columns):
-    print(idx,column)
-#extraction d'une colonne
-dataframe['SC_Unit_Desc']
-#extraction de deux colonnes
-dataframe[['SC_Unit_ID','SC_Unit_Desc']]
-#combien de valeurs différentes
-dataframe[['SC_Unit_ID','SC_Unit_Desc']].nunique()
-#sans les doublons, 1 attribut
-dataframe['SC_Unit_ID'].unique()
-dataframe['SC_Unit_Desc'].unique()
-#une ligne du dictionnaire
-[dataframe['SC_Unit_ID'].unique()[3],dataframe['SC_Unit_Desc'].unique()[3]]
-#création du dictionnaire Unit
-dico_Unit = dict()
-for i in range(dataframe['SC_Unit_ID'].nunique()) :
-    dico_Unit[dataframe['SC_Unit_Desc'].unique()[i]] = dataframe['SC_Unit_ID'].unique()[i]
-##DICTIONNAIRE COMMODITY
-dico_Commodity = dict()
-for i in range(dataframe['SC_Commodity_ID'].nunique()) :
-    dico_Commodity[dataframe['SC_Commodity_Desc'].unique()[i]] = dataframe['SC_Commodity_ID'].unique()[i]
-##DICTIONNAIRE INDICATOR
-dico_Indicator = dict()
-for i in range(dataframe['SC_Attribute_ID'].nunique()) :
-    dico_Indicator[dataframe['SC_Attribute_Desc'].unique()[i]] = dataframe['SC_Attribute_ID'].unique()[i]
-    
-##
-"""
+
+
+
+##MAIN
+dataset = FoodCropDataset()
+dataset.load('C:\\Users\\charl\\Documents\\2A EMA\\poo\\Projet Python\\FeedGrains.csv')
+
+results = dataset.find_measurement(self, commodityType = None, indicatorGroup = None,
+                         geographicalLocation = None, unit = None)
+
+for result in results:
+    print(result.describe())
+
+
+
+
+
