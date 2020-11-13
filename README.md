@@ -1,4 +1,4 @@
-# Python_crew
+# Python_Quellec_Bouda_Prevot
 Rapport du Projet Python
 
 I - Description de l’environnement de développement :
