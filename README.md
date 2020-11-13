@@ -3,12 +3,16 @@ Rapport du Projet Python
 
 I - Description de l’environnement de développement :
 
-Lors de notre travail sur ce projet, nous avons utilisé la version 3.8 de Python que nous avons installée à partir d’Anaconda. Ce dernier est une plateforme de distribution en open-source des langages de programmation Python et R. 
-Rosalie ayant un Mac (système d’exploitation MacOS 10.13.6), et Charlotte et Rémi étant sous Windows10, nous avons dû chacun installer différemment cette plateforme. La version d’Anaconda installée (Anaconda3-2020.07) nous a permis de travailler avec la version 3.8 de Python.
-L’IDE (Integrated Development Environment) que nous avons choisi d’utiliser est celui conseillé, à savoir PyCharm. La version que nous avons téléchargée est la version professionnelle 2020.2.3 que nous avons récupérée depuis JetBrains après création d’un compte.
+Lors de notre travail sur ce projet, nous avons utilisé la version 3.8 de Python que nous avons installée à partir d’Anaconda. 
+Ce dernier est une plateforme de distribution en open-source des langages de programmation Python et R. 
+Rosalie ayant un Mac (système d’exploitation MacOS 10.13.6), et Charlotte et Rémi étant sous Windows10, nous avons dû chacun installer différemment cette plateforme.
+La version d’Anaconda installée (Anaconda3-2020.07) nous a permis de travailler avec la version 3.8 de Python.
+L’IDE (Integrated Development Environment) que nous avons choisi d’utiliser est celui conseillé, à savoir PyCharm. 
+La version que nous avons téléchargée est la version professionnelle 2020.2.3 que nous avons récupérée depuis JetBrains après création d’un compte.
 
 
 II  - Instructions pour faire tourner le programme :
+
 
 	dataset = FoodCropsDataset()
 	dataset.load('/Users/Moi/Downloads/Feed Grains.csv') //lien vers le document
@@ -19,7 +23,9 @@ II  - Instructions pour faire tourner le programme :
   		print(result.describe())
 
 
+
 III - Description de la répartition des tâches:
+
 
 1) Installation de l’environnement de développement ;
 
@@ -43,6 +49,7 @@ III - Description de la répartition des tâches:
 
 
 IV - Problèmes rencontrés :
+
 
 Emploi des self : nous avons eu des soucis de syntaxe vis-à-vis du self, notamment dans la classe FoodCropFactory.
 
