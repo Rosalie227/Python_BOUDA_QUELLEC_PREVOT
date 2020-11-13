@@ -5,16 +5,15 @@ import pandas
 
 class Describable(ABC):  # ABC = Abstract Base Class
 
-    # constructor
+    # constructeur
     def __init__(self):
         super().__init__()
 
     @abstractmethod
     def describe(self) -> str:
-        pass  # on note pass car il s'agit d'une méthode abstraite
+        pass  # pass car méthode abstraite
 
 
-# @abstractclassmethod
 class Unit(Describable):
     id: int
     name: str
@@ -25,7 +24,7 @@ class Unit(Describable):
         self.name = name
 
     @abstractmethod
-    def describe(self):
+    def describe(self): # méthode abstraite dans la classe Unit
         pass
 
 
@@ -54,11 +53,11 @@ class Price(Unit):
 
 
 class Count(Unit):
-    __what: str  # le underscore signifie que l'attribue est privé
+    __what: str  # attribut privé
 
     def __init__(self, id: int, what: str):
         super().__init__(id, name='Count')
-        self.__what = what  # attribut _what prend valeur what
+        self.__what = what
 
     def describe(self) -> str:
         return "Cette unité est un " + self.name + " qui correspond à des " + self.__what + " avec pour id = " + str(
@@ -70,7 +69,7 @@ class Weight(Unit):
 
     def __init__(self, id: int, multiplier: float):
         super().__init__(id, name='Weight')
-        self.__multiplier = multiplier  # attribut _multiplier prend valeur multiplier
+        self.__multiplier = multiplier
 
     def describe(self) -> str:
         return "Cette unité est un " + self.name + " multiplié par " + str(
@@ -93,8 +92,8 @@ class Date(Unit):
         return "Cette unité est une " + self.name + " avec pour id = " + str(self.id)
 
 
-class IndicatorGroup(Enum):
-    EXPORTS_AND_IMPORTS = 1  # garder ces numéros ou les changer en fonction de la database
+class IndicatorGroup(Enum): # énumération
+    EXPORTS_AND_IMPORTS = 1
     SUPPLY_AND_USE = 2
     PRICES = 3
     FEED_PRICE_RATIOS = 4
@@ -129,7 +128,8 @@ class Indicator(Describable):
         return chaine
 
 
-class CommodityGroup(Enum):  # idem, garder les mêmes chiffres ou non
+
+class CommodityGroup(Enum):  # énumération
     CORN = 1
     BARLEY = 2
     OATS = 3
@@ -154,12 +154,13 @@ class Commodity(Describable):
         super().__init__()
         self.id = id
         self.__name = name
-        self.__group = group.value
+        self.__group = group
 
     def describe(self) -> str:
         chaine = "Cette culture vivrière est " + str(
             self.id) + " : " + self.__name + " du groupe : " + self.__group.name
         return chaine
+
 
 
 class Measurement(Describable):
@@ -190,11 +191,10 @@ class Measurement(Describable):
         return chaine
 
 
-# FoodCropFactory
+
 class FoodCropFactory:
 
-    self = None
-
+    # constructeur, initialisation des registry
     def __init__(self):
         super().__init__()
         self.units_registry = {}
@@ -203,19 +203,19 @@ class FoodCropFactory:
 
     def createVolume(self, id: int) -> Unit:
         if id in self.units_registry:
-            return self.units_registry[id]
+            return self.units_registry[id]      # L'instance existe déjà pour la clé id dans le dictionnaire, on la renvoie
         else:
-            instance = Volume(id)
-            self.units_registry[id] = instance
-            return instance
+            instance = Volume(id)               # L'instance n'existe pas encore pour id, on la créé
+            self.units_registry[id] = instance  # On l'associe à la clé id dans le dictionnaire (ajout)
+            return instance                     # On la renvoie
 
     def createPrice(self, id: int) -> Unit:
         if id in self.units_registry:
-            return self.units_registry[id]  # L'instance existe déjà pour la clé id dans le dictionnaire, on la renvoie
+            return self.units_registry[id]
         else:
-            instance = Price(id)  # L'instance n'existe pas encore pour id, on la créé
-            self.units_registry[id] = instance  # On l'associe à la clé id dans le dictionnaire (ajout)
-            return instance  # On la renvoie
+            instance = Price(id)
+            self.units_registry[id] = instance
+            return instance
 
     def createWeight(self, id: int, multiplier: float) -> Unit:
         if id in self.units_registry:
@@ -249,7 +249,6 @@ class FoodCropFactory:
             self.units_registry[id] = instance
             return instance
 
-    # rajouter un createDate
     def createDate(self, id: int) -> Unit:
         if id in self.units_registry:
             return self.units_registry[id]
@@ -267,7 +266,6 @@ class FoodCropFactory:
             return instance
 
     def createIndicator(self, id: int, frequency: int, freqDesc: str, geogLocation: str, indicatorGroup: IndicatorGroup,
-                        # erreur de type pour Enum
                         unit: Unit) -> Indicator:
         if id in self.indicator_registry:
             return self.indicator_registry[id]
@@ -282,10 +280,9 @@ class FoodCropFactory:
         return (instance)
 
 
-# FoodCropsDataset
+
 class FoodCropsDataset:
 
-    # constructeur
     def __init__(self):
         super().__init__()
         self.dicoCommodityGroup = {}
@@ -301,7 +298,8 @@ class FoodCropsDataset:
         for index, row in dataframe.iterrows():
 
             # On récupère les valeurs à partir des colonnes
-            idIndicatorGroup = row['SC_Group_ID']  # --> la colonne 1 = idIndicator
+            # Certaines colonnes sont en commentaire car elles ne servent pas par la suite
+            idIndicatorGroup = row['SC_Group_ID']
             # descIndicatorGroup = row['SC_Group_Desc']
             idCommodityGroup = row['SC_GroupCommod_ID']
             # descCommodityGroup = row['SC_GroupCommod_Desc']
@@ -321,23 +319,25 @@ class FoodCropsDataset:
             descTimePeriod = row['Timeperiod_Desc']
             amount = row['Amount']
 
-            # Ici on réalise les create, c'est une ébauche ici
+            # On appelle les Create
+
+            # On sépare les cas pour Unit en fonction de leurs identifiants
             if idUnit in [1, 3, 17, 18]:  # id correspondant aux volumes
                 unit = FoodCropFactory.createVolume(FoodCropFactory.self, idUnit)
             elif idUnit in [2, 10, 44]:
                 unit = FoodCropFactory.createSurface(FoodCropFactory.self, idUnit)
+            # différents cas en fonction de la valeur de multiplier
             elif idUnit in [41]:
-                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit,
-                                                    1)      # différents cas en fonction de la valeur de multiplier
+                unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1)
             elif idUnit in [7, 9]:
                 unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1000)
             elif idUnit in [8]:
                 unit = FoodCropFactory.createWeight(FoodCropFactory.self, idUnit, 1000000)
             elif idUnit in [4, 5, 12, 14, 31]:
                 unit = FoodCropFactory.createPrice(FoodCropFactory.self, idUnit)
+            # différents cas en fonction de la valeur de what
             elif idUnit in [16]:
-                unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit,
-                                                   "wagons")  # différents cas en fonction de la valeur de what
+                unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit, "wagons")
             elif idUnit in [46]:
                 unit = FoodCropFactory.createCount(FoodCropFactory.self, idUnit, "millions d'unités animales")
             elif idUnit in [6, 11, 13, 45]:
@@ -358,7 +358,7 @@ class FoodCropsDataset:
 
             # Ici on indexe les measurements
             # dictionnaire unit
-            if unit not in self.dicoUnit:  # On a pas encore de mesures pour cette valeur de unit, on initialise une liste vide
+            if unit not in self.dicoUnit:
                 self.dicoUnit[unit] = list()
 
             self.dicoUnit[unit].append(measurement)  # On ajoute notre mesure
@@ -381,14 +381,15 @@ class FoodCropsDataset:
 
             self.dicoLocGeo[idGeography].append(measurement)
 
+
     def findMeasurements(self, commodityType: int = None, indicatorGroup: IndicatorGroup = None,
                          geographicalLocation: str = None, unit: Unit = None) :
         liste_mesures = list()
         liste_toutes_les_mesures = list()
-        for cle, valeur in self.dicoCommodityGroup.items():  # On aurait pu prendre n'importe lequel des dictionnaires
-            liste_toutes_les_mesures += valeur  # On ajoute chaque "morceau" de la liste des mesures qui sont séparées dans le dico
+        for cle, valeur in self.dicoCommodityGroup.items():  # n'importe quel dictionnaire pour créer liste_toutes_les_mesures
+            liste_toutes_les_mesures += valeur
         if commodityType is None:
-            liste_mesures_Commodity = liste_toutes_les_mesures  # Pour avoir toutes les mesures et pouvoir croiser
+            liste_mesures_Commodity = liste_toutes_les_mesures
         else:
             liste_mesures_Commodity = self.dicoCommodityGroup[
                 commodityType]  # On affecte la liste des mesures qui ont pour CommodityGroup celui recherché
@@ -404,18 +405,19 @@ class FoodCropsDataset:
             liste_mesures_Unit = liste_toutes_les_mesures
         else:
             liste_mesures_Unit = self.dicoUnit[unit]
-        for element in liste_mesures_Commodity:  # On aurait pu commencer par n'importe laquelle des 4 listes
-            if element in liste_mesures_Indicator and element in liste_mesures_Geogloc and element in liste_mesures_Unit:  # Si la mesure correspond à toutes les critères
+        for element in liste_mesures_Commodity:  # n'importe laquelle des 4 listes
+            if element in liste_mesures_Indicator and element in liste_mesures_Geogloc and element in liste_mesures_Unit:  # Si la mesure correspond à tous les critères
                 liste_mesures.append(element)  # on l'ajoute à la liste à renvoyer
         return liste_mesures
 
 
+
 ##MAIN
 dataset = FoodCropsDataset()
-dataset.load('Moi/Downloads/FeedGrains.csv')
+dataset.load('C:\\Users\\charl\\Documents\\2A EMA\\poo\\Projet Python\\FeedGrains.csv')
 
-results = dataset.findMeasurements(commodityType=None, indicatorGroup=None,
-                                   geographicalLocation=None, unit=None)
+results = dataset.findMeasurements(commodityType=17, indicatorGroup=None,
+                                   geographicalLocation="United States", unit=None)
 
 for result in results:
     print(result.describe())
