@@ -317,8 +317,8 @@ class FoodCropsDataset:
             idYear = row['Year_ID']
             idFrequency = row['SC_Frequency_ID']
             descFrequency = row['SC_Frequency_Desc']
-            idTimePeriod = row['TimePeriod_ID']
-            descTimePeriod = row['TimePeriod_Desc']
+            idTimePeriod = row['Timeperiod_ID']
+            descTimePeriod = row['Timeperiod_Desc']
             amount = row['Amount']
 
             # Ici on réalise les create, c'est une ébauche ici
